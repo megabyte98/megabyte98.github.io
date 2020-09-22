@@ -50572,7 +50572,7 @@ p=q.d
 P.fC(p.a.a)
 o=t.X
 s=2
-return P.a4(G.ahj("http://0b11bd9df842.ngrok.io/predict",C.aP.ft(P.ax(["text",p.a.a],o,o))),$async$qq)
+return P.a4(G.ahj("https://0b11bd9df842.ngrok.io/predict",C.aP.ft(P.ax(["text",p.a.a],o,o))),$async$qq)
 case 2:n=b
 m=t.el.a(C.aP.df(0,B.agE(U.aeA(n.e).c.a.h(0,"charset")).df(0,n.x)))
 P.fC(m)
