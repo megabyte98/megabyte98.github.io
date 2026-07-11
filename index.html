@@ -1,5 +1,595 @@
 <!DOCTYPE html>
-<html>
-<head><title>Developer Domain</title></head>
-<body><h1>Domain Active</h1></body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Megabyte Games is the indie studio behind Chess Siege, a fantasy chess defense game about guarding castles, upgrading armies, and conquering worlds." />
+  <title>Megabyte Games | Chess Siege</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #080915;
+      --panel: rgba(15, 18, 37, 0.78);
+      --line: rgba(255, 255, 255, 0.16);
+      --text: #f9fbff;
+      --muted: #b8c0d8;
+      --cyan: #21d7ff;
+      --gold: #ffc83d;
+      --red: #ff4c4c;
+      --green: #38e27f;
+      --violet: #b36bff;
+      --shadow: 0 26px 90px rgba(0, 0, 0, 0.42);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(33, 215, 255, 0.24), transparent 28rem),
+        radial-gradient(circle at 82% 18%, rgba(255, 200, 61, 0.22), transparent 24rem),
+        radial-gradient(circle at 50% 70%, rgba(179, 107, 255, 0.18), transparent 32rem),
+        var(--ink);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: linear-gradient(to bottom, black, transparent 72%);
+      z-index: -2;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    img { display: block; max-width: 100%; }
+
+    .wrap {
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(18px);
+      background: rgba(8, 9, 21, 0.72);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .brand img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 0 24px rgba(33, 215, 255, 0.3);
+    }
+
+    .brand span {
+      font-family: Bangers, Inter, sans-serif;
+      font-size: clamp(1.55rem, 3vw, 2.2rem);
+      text-shadow: 3px 3px 0 rgba(255, 76, 76, 0.55), -2px -2px 0 rgba(33, 215, 255, 0.45);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .nav-links a {
+      padding: 10px 12px;
+      border-radius: 8px;
+    }
+
+    .nav-links a:hover { color: var(--text); background: rgba(255, 255, 255, 0.08); }
+
+    .hero {
+      min-height: calc(100vh - 76px);
+      display: grid;
+      align-items: center;
+      padding: 56px 0 42px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+      gap: clamp(32px, 6vw, 76px);
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--cyan);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+    }
+
+    .spark {
+      width: 11px;
+      height: 11px;
+      border-radius: 3px;
+      background: var(--gold);
+      box-shadow: 0 0 22px var(--gold);
+      transform: rotate(45deg);
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      font-family: Bangers, Inter, sans-serif;
+      font-size: clamp(4.4rem, 12vw, 9.8rem);
+      line-height: 0.82;
+      margin-bottom: 24px;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      text-shadow: 7px 7px 0 rgba(0, 0, 0, 0.65), 12px 12px 0 rgba(255, 76, 76, 0.35), -8px -8px 0 rgba(33, 215, 255, 0.18);
+    }
+
+    .lead {
+      max-width: 620px;
+      color: #dfe5f8;
+      font-size: clamp(1.06rem, 2vw, 1.28rem);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 30px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 8px;
+      font-weight: 900;
+      border: 1px solid var(--line);
+      box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.42);
+      transform: translate(0, 0);
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .btn:hover { transform: translate(3px, 3px); box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.42); }
+
+    .btn-primary { background: linear-gradient(135deg, var(--gold), #ff7b2c); color: #1b1000; }
+
+    .btn-secondary { background: rgba(255, 255, 255, 0.08); color: var(--text); }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 620px;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--gold);
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      line-height: 1;
+    }
+
+    .stat span { color: var(--muted); font-size: 0.86rem; font-weight: 800; }
+
+    .hero-art {
+      position: relative;
+      min-height: 530px;
+    }
+
+    .hero-art::before {
+      content: "";
+      position: absolute;
+      inset: 14% -8% auto auto;
+      width: 76%;
+      aspect-ratio: 1;
+      background: conic-gradient(from 90deg, var(--cyan), var(--gold), var(--red), var(--violet), var(--cyan));
+      filter: blur(36px);
+      opacity: 0.38;
+      animation: spin 12s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .game-card {
+      position: relative;
+      isolation: isolate;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      transform: rotate(2deg);
+    }
+
+    .game-card img { border-radius: 6px; width: 100%; aspect-ratio: 1; object-fit: cover; }
+
+    .mini-logo {
+      position: absolute;
+      left: -8%;
+      bottom: -10%;
+      width: min(54%, 300px);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: var(--shadow);
+      transform: rotate(-7deg);
+    }
+
+    section { padding: 78px 0; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    h2 {
+      font-family: Bangers, Inter, sans-serif;
+      font-size: clamp(2.7rem, 7vw, 5.8rem);
+      line-height: 0.9;
+      letter-spacing: 0;
+      margin-bottom: 0;
+      text-shadow: 5px 5px 0 rgba(0, 0, 0, 0.52);
+    }
+
+    .section-head p {
+      max-width: 470px;
+      margin-bottom: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(320px, 1fr));
+      gap: 18px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x proximity;
+      padding: 2px 2px 14px;
+      scrollbar-color: rgba(255, 200, 61, 0.72) rgba(255, 255, 255, 0.08);
+    }
+
+    .feature {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: rgba(5, 6, 13, 0.84);
+      aspect-ratio: 16 / 9;
+      box-shadow: var(--shadow);
+      scroll-snap-align: start;
+    }
+
+    .feature img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 500ms ease;
+    }
+
+    .feature:hover img { transform: scale(1.02); }
+
+    .feature-copy {
+      position: absolute;
+      inset: auto 0 0;
+      padding: 72px 18px 18px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    }
+
+    .feature-copy h3 {
+      font-size: 1.14rem;
+      margin-bottom: 8px;
+    }
+
+    .feature-copy p {
+      color: #dbe1f5;
+      line-height: 1.5;
+      margin-bottom: 0;
+      font-size: 0.95rem;
+    }
+
+    .play-store-coming-soon {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .play-store-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 58px;
+      padding: 8px 20px 8px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.58);
+      box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.3);
+      cursor: not-allowed;
+      font-family: inherit;
+      text-align: left;
+    }
+
+    .play-store-button svg { width: 34px; height: 38px; opacity: 0.54; }
+
+    .play-store-button small {
+      display: block;
+      margin-bottom: 1px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .play-store-button strong { display: block; font-size: 1.05rem; }
+
+    .studio-card {
+      position: relative;
+      overflow: hidden;
+      min-height: clamp(520px, 58vw, 720px);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(5, 6, 13, 0.9) 0%, rgba(5, 6, 13, 0.72) 42%, rgba(5, 6, 13, 0.2) 100%),
+        url("assets/megabyte-games-cover.jpg") center / cover no-repeat;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: flex-end;
+      padding: clamp(24px, 5vw, 56px);
+    }
+
+    .studio-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(5, 6, 13, 0.76), transparent 48%);
+      pointer-events: none;
+    }
+
+    .studio-panel {
+      position: relative;
+      z-index: 1;
+      max-width: 610px;
+    }
+
+    .studio-panel h2 { font-size: clamp(2.7rem, 7vw, 5.8rem); }
+
+    .studio-panel p { color: #e2e8fb; line-height: 1.68; font-weight: 700; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.68); }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-weight: 900;
+      color: #0a0b14;
+    }
+
+    .pill:nth-child(1) { background: var(--cyan); }
+    .pill:nth-child(2) { background: var(--gold); }
+    .pill:nth-child(3) { background: var(--green); }
+    .pill:nth-child(4) { background: #ffffff; }
+
+
+    .social-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-youtube { background: linear-gradient(135deg, #ff4c4c, #ff9c2f); color: #1b0400; }
+
+    .studio-social { justify-content: flex-start; margin-top: 26px; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 32px 0;
+      color: var(--muted);
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-weight: 700;
+    }
+
+    .footer-links { display: flex; flex-wrap: wrap; gap: 8px; }
+    .footer-links a { padding: 8px 10px; border-radius: 8px; }
+    .footer-links a:hover { background: rgba(255, 255, 255, 0.08); color: var(--text); }
+
+    @media (max-width: 920px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero { min-height: auto; }
+      .hero-art { min-height: auto; padding-bottom: 84px; }
+      .feature-grid { grid-template-columns: repeat(3, minmax(280px, 82vw)); }
+      .feature { aspect-ratio: 16 / 9; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 12px; }
+      .studio-card { min-height: 560px; background-position: center top; }
+      .social-actions { justify-content: flex-start; }
+    }
+
+    @media (max-width: 680px) {
+      .wrap { width: min(100% - 28px, 1160px); }
+      .nav { min-height: 68px; }
+      .nav-links { display: none; }
+      .brand img { width: 42px; height: 42px; }
+      .hero { padding-top: 36px; }
+      .stats { grid-template-columns: 1fr; }
+      section { padding: 54px 0; }
+      .mini-logo { left: 4%; bottom: -76px; width: 58%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Megabyte Games home">
+        <img src="assets/megabyte-games.png" alt="Megabyte Games logo" />
+        <span>Megabyte Games</span>
+      </a>
+      <div class="nav-links" aria-label="Page sections">
+        <a href="#chess-siege">Chess Siege</a>
+        <a href="#features">Features</a>
+        <a href="#studio">Studio</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" id="chess-siege">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow"><span class="spark"></span> Indie games with oversized energy</p>
+          <h1>Chess Siege</h1>
+          <p class="lead">Command heroic pieces, hold the castle line, and push through fantasy worlds in a strategy defense game built by Megabyte Games.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#features">Explore the Game</a>
+            <a class="btn btn-secondary" href="mailto:bansalmanvendra@gmail.com">Contact Studio</a>
+          </div>
+          <div class="stats" aria-label="Game highlights">
+            <div class="stat"><strong>2</strong><span>worlds to conquer</span></div>
+            <div class="stat"><strong>6+</strong><span>hero factions</span></div>
+            <div class="stat"><strong>&infin;</strong><span>castle-defense chaos</span></div>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Chess Siege artwork">
+          <div class="game-card">
+            <img src="assets/app-icon.png" alt="Golden king facing shadow king in Chess Siege" />
+          </div>
+          <img class="mini-logo" src="assets/chess-siege-logo.png" alt="Chess Siege logo art" />
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Castle. Cards. Combat.</h2>
+          <p>Chess Siege blends board tactics with wave defense, letting each run feel readable, punchy, and full of fantasy-tabletop drama.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature">
+            <img src="assets/guard-castle.png" alt="Chess Siege gameplay board with castle defense wave" />
+            <div class="feature-copy">
+              <h3>Guard Your Castle</h3>
+              <p>Place defenders, manage waves, and keep the enemy army from breaking your board.</p>
+            </div>
+          </article>
+          <article class="feature">
+            <img src="assets/upgrade-army.png" alt="Chess Siege upgrade cards for army units" />
+            <div class="feature-copy">
+              <h3>Upgrade Your Army</h3>
+              <p>Turn humble pieces into heavy hitters with upgrades that make every choice matter.</p>
+            </div>
+          </article>
+          <article class="feature">
+            <img src="assets/unlock-skins.png" alt="Chess Siege hero faction cards" />
+            <div class="feature-copy">
+              <h3>Unlock Hero Factions</h3>
+              <p>Collect faction looks from golden knights to shadow armies and forge your favorite style.</p>
+            </div>
+          </article>
+        </div>
+        <div class="play-store-coming-soon">
+          <button class="play-store-button" type="button" disabled aria-label="Coming soon on Google Play">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#35c5f4" d="M5 4.5v39l21.4-19.5z" />
+              <path fill="#ffdf4f" d="m26.4 24 5.2-4.7L8 5.7z" />
+              <path fill="#fe894b" d="M8 42.3 31.6 28.7 26.4 24z" />
+              <path fill="#72ce88" d="m31.6 19.3 8 4.6c1.9 1.1 1.9 3.1 0 4.2l-8 4.6-5.2-4.7z" />
+            </svg>
+            <span><small>Coming soon on</small><strong>Google Play</strong></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="studio">
+      <div class="wrap studio-card">
+        <div class="studio-panel">
+          <h2>Small Studio. Big Buttons.</h2>
+          <p>Megabyte Games makes colorful, systems-driven games with arcade snap, strategic depth, and a taste for dramatic fantasy spectacle.</p>
+          <p>Chess Siege is the flagship: a castle-defense battler where chess-piece logic meets upgrade-card momentum.</p>
+          <div class="pill-row" aria-label="Studio values">
+            <span class="pill">Tactical</span>
+            <span class="pill">Funky</span>
+            <span class="pill">Mobile-first</span>
+            <span class="pill">Fantasy</span>
+          </div>
+          <div class="social-actions studio-social" aria-label="Megabyte Games social links">
+            <a class="btn btn-primary" href="https://www.instagram.com/megabyte.games?igsh=MTJwYWtocDhyeHJxNA==" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a class="btn btn-youtube" href="https://youtube.com/@megabytegames03?si=M4aqCALn_4nhUjTg" target="_blank" rel="noopener noreferrer">YouTube</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+  <footer>
+    <div class="wrap footer-row">
+      <span>&copy; 2026 Megabyte Games. All rights reserved.</span>
+      <div class="footer-links" aria-label="Footer links">
+        <a href="https://megabyte98.github.io/chesssiege-legal/privacy-policy.html">Privacy Policy</a>
+        <a href="https://megabyte98.github.io/chesssiege-legal/terms-and-conditions.html">Terms</a>
+        <a href="mailto:bansalmanvendra@gmail.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+</body>
 </html>
